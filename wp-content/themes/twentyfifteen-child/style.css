@@ -1,0 +1,261 @@
+/*
+ Theme Name:   Twenty Fifteen Child
+ Theme URI:    https://wordpress.org/themes/twentyfifteen/
+ Description:  Twenty Fifteen Child Theme
+ Author:       MJDevelopZ
+ Author URI:   http://www.seraphinaknits.com
+ Template:     twentyfifteen
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  twenty-fifteen-child
+*/
+
+/*Font*/
+@import url(http://fonts.googleapis.com/css?family=Clicker+Script);
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+
+/*Front Page*/
+.home{
+	background-color: #e8dcca;
+}
+
+/*Front Page Enter*/
+.frontPageEnter {
+	font-family: 'Raleway', sans-serif;
+	float: right;
+}
+
+/*Sticky Footer*/
+html, body{
+	height: 100%;
+}
+
+.sticky_footer_container{
+	min-height: 100%;
+}
+
+.sticky_footer_wrap{
+	overflow: auto;
+	/*padding-bottom: 50px; Must be the same height as the footer*/
+}
+
+/*Footer*/
+.site-footer{
+	width: 825px;
+	margin-left: 37%;
+	margin-bottom: 2.5%;
+	height: 50px;
+}
+
+.site-info{
+	padding-top: 1.25%;
+	padding-bottom: 1.25%;
+}
+
+.site-info a{
+	font-family: 'Raleway', sans-serif;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.site-info p{
+	font-family: 'Clicker Script', cursive;
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+img.footerImage{
+	height: 50px;
+	width: 50px;
+}
+
+/*Sidebar*/
+.site-title{
+	font-family: 'Clicker Script', cursive;
+	font-size: 50px;
+	font-weight: bold;
+	text-align: center;
+}
+
+.site-title a{
+	color: #a85b4a;
+}
+
+.site-description{
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
+
+/*Widget*/
+.widget-title{
+	font-family: 'Clicker Script', cursive;
+	color: #8da37c;
+	text-transform: none;
+	font-size: 30px;
+}
+
+.search-field{
+	font-family: 'Raleway', sans-serif;
+}
+
+#recent-posts-2 ul, li{
+	font-family: 'Raleway', sans-serif;
+}
+
+#categories-2 li{
+	font-family: 'Raleway', sans-serif;
+}
+
+h2.widget-title{
+	margin-bottom: 25px;
+}
+
+/*Home Page*/
+body {
+	background-color: #e8dcca;
+}
+
+/*Content Styling*/
+h1.entry-title{
+	font-family: 'Clicker Script', cursive;
+	color: #a85b4a;
+}
+
+.entry-content{
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
+
+.entry-footer p{
+	font-family: 'Raleway', sans-serif;
+	font-size: 12px;
+	font-style: italic;
+}
+
+.entry-footer{
+	font-family: 'Raleway', sans-serif;
+	font-size: 14px;
+	padding-top: 21px;
+	padding-bottom: 21px;
+}
+
+.post-navigation {
+	background-color: #fff;
+	border-top: 1px solid #eaeaea;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+	font-weight: 700;
+}
+
+.post-navigation a {
+	display: block;
+	padding: 3.8461% 7.6923%;
+}
+
+.post-navigation span {
+	display: block;
+}
+
+.post-navigation .meta-nav {
+	color: #707070;
+	color: rgba(51, 51, 51, 0.7);
+	font-family: 'Raleway', sans-serif;
+	font-size: 12px;
+	font-size: 1.2rem;
+	letter-spacing: 0.04em;
+	line-height: 1.5;
+	position: relative;
+	text-transform: uppercase;
+	z-index: 2;
+}
+
+.post-navigation .post-title {
+	font-family: 'Clicker Script', cursive;
+	font-size: 18px;
+	font-size: 1.8rem;
+	line-height: 1.3333;
+	position: relative;
+	z-index: 2;
+}
+
+.post-navigation .nav-next,
+.post-navigation .nav-previous {
+	background-position: center;
+	background-size: cover;
+	position: relative;
+}
+
+.post-navigation a:before {
+	content: "";
+	display: block;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1;
+}
+
+.post-navigation a:hover:before,
+.post-navigation a:focus:before {
+	opacity: 0.5;
+}
+
+.post-navigation .meta-nav {
+	opacity: 0.8;
+}
+
+.post-navigation div + div {
+	border-top: 1px solid #eaeaea;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+}
+
+.pagination {
+	background-color: #fff;
+	border-top: 1px solid rgba(51, 51, 51, 0.1);
+	font-family: 'Raleway', sans-serif;
+}
+
+.pagination .nav-links {
+	min-height: 3.2em;
+	position: relative;
+	text-align: center;
+}
+
+/*Content Footer*/
+#web_link{
+	color: #e38f9c;
+}
+
+/*Comments*/
+.comment-reply-title{
+	font-family: 'Clicker Script', cursive;
+	color: #a85b4a;
+}
+
+.logged-in-as{
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
+
+.comment-form-comment label{
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
+
+#comment textarea{
+	background-color: #e38f9c;
+}
+
+.form-allowed-tags{
+	font-family: 'Raleway', sans-serif;
+}
+
+#submit{
+	background-color: #d5d9a5;
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
