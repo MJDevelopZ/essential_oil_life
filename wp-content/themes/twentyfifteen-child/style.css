@@ -120,7 +120,16 @@ body {
 }
 
 /*Content Styling*/
-h1.entry-title{
+#entry-title-font-change{
+	font-family: 'Clicker Script', cursive;
+	color: #a85b4a;
+}
+
+.entry-header a{
+	color: #a85b4a;
+}
+
+.entry-title{
 	font-family: 'Clicker Script', cursive;
 	color: #a85b4a;
 }
