@@ -1,9 +1,15 @@
 === Akismet ===
 Contributors: matt, ryan, andy, mdawaffe, tellyworth, josephscott, lessbloat, eoigal, cfinke, automattic, jgs
 Tags: akismet, comments, spam
+<<<<<<< HEAD
 Requires at least: 3.2
 Tested up to: 4.2.1
 Stable tag: 3.1.1
+=======
+Requires at least: 3.1
+Tested up to: 4.1
+Stable tag: 3.0.4
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 License: GPLv2 or later
 
 Akismet checks your comments against the Akismet Web service to see if they look like spam or not.
@@ -30,6 +36,7 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 
 == Changelog ==
 
+<<<<<<< HEAD
 = 3.1.1 =
 *Release Date - 17th March, 2015*
 
@@ -42,6 +49,8 @@ Upload the Akismet plugin to your blog, Activate it, then enter your [Akismet.co
 * Use HTTPS by default for all requests to Akismet.
 * Fix for a situation where Akismet might strip HTML from a comment.
 
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 = 3.0.4 =
 *Release Date - 11th December, 2014*
 

@@ -23,7 +23,11 @@ class Akismet {
 		self::$initiated = true;
 
 		add_action( 'wp_insert_comment', array( 'Akismet', 'auto_check_update_meta' ), 10, 2 );
+<<<<<<< HEAD
 		add_filter( 'preprocess_comment', array( 'Akismet', 'auto_check_comment' ), 1 );
+=======
+		add_action( 'preprocess_comment', array( 'Akismet', 'auto_check_comment' ), 1 );
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 		add_action( 'akismet_scheduled_delete', array( 'Akismet', 'delete_old_comments' ) );
 		add_action( 'akismet_scheduled_delete', array( 'Akismet', 'delete_old_comments_meta' ) );
 		add_action( 'akismet_schedule_cron_recheck', array( 'Akismet', 'cron_recheck' ) );
@@ -42,9 +46,12 @@ class Akismet {
 		
 		add_action( 'transition_comment_status', array( 'Akismet', 'transition_comment_status' ), 10, 3 );
 
+<<<<<<< HEAD
 		// Run this early in the pingback call, before doing a remote fetch of the source uri
 		add_action( 'xmlrpc_call', array( 'Akismet', 'pre_check_pingback' ) );
 
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 		if ( '3.0.5' == $GLOBALS['wp_version'] ) {
 			remove_filter( 'comment_text', 'wp_kses_data' );
 			if ( is_admin() )
@@ -164,7 +171,10 @@ class Akismet {
 			if ( function_exists('wp_next_scheduled') && function_exists('wp_schedule_single_event') ) {
 				if ( !wp_next_scheduled( 'akismet_schedule_cron_recheck' ) ) {
 					wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+<<<<<<< HEAD
 					do_action( 'akismet_scheduled_recheck', 'invalid-response-' . $response[1] );
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 				}
 			}
 
@@ -184,7 +194,11 @@ class Akismet {
 		self::set_last_comment( $commentdata );
 		self::fix_scheduled_recheck();
 
+<<<<<<< HEAD
 		return $commentdata;
+=======
+		return self::$last_comment;
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 	}
 	
 	public static function get_last_comment() {
@@ -551,7 +565,10 @@ class Akismet {
 		if ( get_option( 'akismet_alert_code' ) || $status == 'invalid' ) {
 			// since there is currently a problem with the key, reschedule a check for 6 hours hence
 			wp_schedule_single_event( time() + 21600, 'akismet_schedule_cron_recheck' );
+<<<<<<< HEAD
 			do_action( 'akismet_scheduled_recheck', 'key-problem-' . get_option( 'akismet_alert_code' ) . '-' . $status );
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 			return false;
 		}
 
@@ -613,7 +630,10 @@ class Akismet {
 
 				delete_comment_meta( $comment_id, 'akismet_rechecking' );
 				wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+<<<<<<< HEAD
 				do_action( 'akismet_scheduled_recheck', 'check-db-comment-' . $status );
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 				return;
 			}
 			delete_comment_meta( $comment_id, 'akismet_rechecking' );
@@ -622,7 +642,10 @@ class Akismet {
 		$remaining = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->commentmeta} WHERE meta_key = 'akismet_error'" );
 		if ( $remaining && !wp_next_scheduled('akismet_schedule_cron_recheck') ) {
 			wp_schedule_single_event( time() + 1200, 'akismet_schedule_cron_recheck' );
+<<<<<<< HEAD
 			do_action( 'akismet_scheduled_recheck', 'remaining' );
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 		}
 	}
 
@@ -640,7 +663,10 @@ class Akismet {
 		if ( $future_check > $check_range ) {
 			wp_clear_scheduled_hook( 'akismet_schedule_cron_recheck' );
 			wp_schedule_single_event( time() + 300, 'akismet_schedule_cron_recheck' );
+<<<<<<< HEAD
 			do_action( 'akismet_scheduled_recheck', 'fix-scheduled-recheck' );
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 		}
 	}
 
@@ -817,6 +843,7 @@ class Akismet {
 			'timeout' => 15
 		);
 
+<<<<<<< HEAD
 		$akismet_url = $http_akismet_url = "http://{$http_host}/1.1/{$path}";
 
 		/**
@@ -882,6 +909,13 @@ class Akismet {
 			
 			do_action( 'akismet_https_disabled' );
 		}
+=======
+		$akismet_url = "http://{$http_host}/1.1/{$path}";
+		$response = wp_remote_post( $akismet_url, $http_args );
+		Akismet::log( compact( 'akismet_url', 'http_args', 'response' ) );
+		if ( is_wp_error( $response ) )
+			return array( '', '' );
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 
 		return array( $response['headers'], $response['body'] );
 	}
@@ -1024,6 +1058,7 @@ p {
 			error_log( print_r( compact( 'akismet_debug' ), true ) );
 		}
 	}
+<<<<<<< HEAD
 
 	public static function pre_check_pingback( $method ) {
 		if ( $method !== 'pingback.ping' )
@@ -1085,4 +1120,6 @@ p {
 
 		return $r;
 	}
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 }

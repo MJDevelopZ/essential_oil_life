@@ -612,6 +612,13 @@ $string .= '
 						$string .=  ' maxlength="'.$field['max_len'].'"';
 					if($field['attributes'] != '')
 					  $string .= ' '.$field['attributes'];
+<<<<<<< HEAD
+                    if ( 'true' == $field['placeholder'] && $field['default'] != '') {
+                         $string .= ' placeholder="'.esc_attr($field['default']).'"';
+                         self::$placeholder = 1;
+                    }
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 					$string .= " />\n    </div>\n";
 					break;
 				
@@ -791,6 +798,10 @@ $string .= '
 
 		// Find logged in user's WP name (auto form fill feature):
 		// http://codex.wordpress.org/Function_Reference/get_currentuserinfo
+<<<<<<< HEAD
+        $auto_fill = 0;
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 		if ( isset(self::$form_content[$field['slug']]) &&
         '' == self::$form_content[$field['slug']] &&
         $user_ID != '' &&
@@ -799,6 +810,10 @@ $string .= '
 
         self::$form_options['auto_fill_enable'] == 'true' ) {
 			// user logged in (and not admin rights) (and auto_fill_enable set in options)
+<<<<<<< HEAD
+            $auto_fill = 1;
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 			self::$form_content[$field['slug']] = $current_user->user_login;
 		}
 
@@ -902,6 +917,11 @@ $string .= '    </div>
 		$string .= ' type="text" id="fscf_name' . self::$form_id_num . '" name="full_name" value="' . esc_attr( self::$form_content[$field['slug']] ) . '" ' . self::$aria_required;
         if($field['attributes'] != '')
 			  $string .= ' '.$field['attributes'];
+<<<<<<< HEAD
+        if($auto_fill) //auto form fill logged in name and email
+              $string .= ' readonly="readonly"';
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 if ( 'true' == $field['placeholder'] && $field['default'] != '') {
    $string .= ' placeholder="'.esc_attr($field['default']).'"';
  self::$placeholder = 1;
@@ -996,9 +1016,17 @@ $string .= '    </div>
 
 		// Find logged in user's WP email address (auto form fill feature):
 		// http://codex.wordpress.org/Function_Reference/get_currentuserinfo
+<<<<<<< HEAD
+        $auto_fill = 0;
 		if ( '' == self::$form_content[$field['slug']] && $user_ID != '' && $current_user->user_login != 'admin' &&
 				!current_user_can( 'manage_options' ) && self::$form_options['auto_fill_enable'] == 'true' ) {
 			// user logged in (and not admin rights) (and auto_fill_enable set in options)
+            $auto_fill = 1;
+=======
+		if ( '' == self::$form_content[$field['slug']] && $user_ID != '' && $current_user->user_login != 'admin' &&
+				!current_user_can( 'manage_options' ) && self::$form_options['auto_fill_enable'] == 'true' ) {
+			// user logged in (and not admin rights) (and auto_fill_enable set in options)
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
 			self::$form_content[$field['slug']] = $current_user->user_email;
             if ( 'true' == self::$form_options['double_email'] )
 			    self::$form_content['email2'] = $current_user->user_email;
@@ -1039,6 +1067,11 @@ $string .= '      <label ';
 		$string .= '" ' . self::$aria_required;
         if($field['attributes'] != '')
 				  $string .= ' '.$field['attributes'];
+<<<<<<< HEAD
+        if($auto_fill) //auto form fill logged in name and email
+              $string .= ' readonly="readonly"';
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
          if ( 'true' == $field['placeholder'] && $email_default != '') {
             $string .= ' placeholder="'.esc_attr($email_default).'"';
             self::$placeholder = 1;
@@ -1064,6 +1097,11 @@ $string .= '      <label ';
 		$string .= ' type="'.$email_input_type.'" id="fscf_email' . self::$form_id_num. '_2" name="email2" value="' . esc_attr( self::$form_content['email2'] ) . '" ' . self::$aria_required;
         if($field['attributes'] != '') // XXX same as email 1 though
 					  $string .= ' '.$field['attributes'];
+<<<<<<< HEAD
+        if($auto_fill) //auto form fill logged in name and email
+              $string .= ' readonly="readonly"';
+=======
+>>>>>>> e20c142dd07548bfd84524916946a32b36f6b337
          if ( 'true' == $field['placeholder'] && $email2_default != '') {
               $string .= ' placeholder="'.esc_attr($email2_default).'"';
               self::$placeholder = 1;
