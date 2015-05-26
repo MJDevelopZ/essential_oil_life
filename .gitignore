@@ -3,6 +3,3 @@ wp-config.php
 
 #Large Media Files
 wp-content/uploads/2015/05
-
-#Ignore because it is making everything angry
-wp-content/plugins/akismet
