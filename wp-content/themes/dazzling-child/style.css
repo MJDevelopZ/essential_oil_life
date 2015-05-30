@@ -1,0 +1,68 @@
+/*
+ Theme Name:   Dazzling Child
+ Theme URI:    https://colorlib.com/wp/themes/dazzling/
+ Description:  Dazzling Child Theme
+ Author:       MJDevelopZ
+ Author URI:   http://www.seraphinaknits.com
+ Template:     dazzling
+ Version:      1.5.1.1
+ License: GNU General Public License v2 or later
+ License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ Text Domain: dazzling
+ Domain Path: /languages/
+ Tags: green, light, white, gray, black, one-column, two-columns, right-sidebar, fluid-layout, responsive-layout, responsive-layout, photoblogging, left-sidebar, translation-ready, custom-background, custom-colors, custom-menu, featured-images, full-width-template, post-formats, theme-options, threaded-comments
+
+
+This theme, like WordPress, is licensed under the GPL.
+
+Dazzling is based on Underscores http://underscores.me/, (C) 2012-2015 Automattic, Inc.
+
+*/
+
+/*Font*/
+@import url(http://fonts.googleapis.com/css?family=Clicker+Script);
+@import url(http://fonts.googleapis.com/css?family=Raleway);
+
+/*NavBar*/
+.navbar > .container .navbar-brand {
+  color: #a85b4a;
+  font-size: 30px;
+  margin: 8px 0;
+  font-family: 'Clicker Script', cursive;
+}
+
+#menu-menu{
+	font-family: 'Raleway', sans-serif;
+	color: #8da37c;
+}
+
+.navbar-default .navbar-nav > li > a, 
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a:hover{
+	color: #8da37c;
+	background-color: transparent;
+}
+
+.dropdown-menu > li > a,
+.dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover{
+	color: #8da37c;
+	background-color: transparent;
+}
+
+/*Front Page Enter*/
+.frontPageEnter{
+	float: right;
+	font-family: 'Raleway', sans-serif;
+	font-size: 18px;
+	color: #8da37c;
+}
+
+/*Front Page Footer - or Page Footer*/
+#colophon{
+	background-color: #d5d9a5;
+	border-top: 1px solid #d5d9a5;
+}
+#footer-area a{
+	color: #8da37c;
+}
