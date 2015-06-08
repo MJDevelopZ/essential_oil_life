@@ -23,31 +23,91 @@ Dazzling is based on Underscores http://underscores.me/, (C) 2012-2015 Automatti
 @import url(http://fonts.googleapis.com/css?family=Clicker+Script);
 @import url(http://fonts.googleapis.com/css?family=Raleway);
 
+/*Site Background Color*/
+body{
+	background-color: #f4f9eb;
+}
+
+
 /*NavBar*/
+
+.site-main [class*="navigation"] a,
+.more-link {
+  border: 1px solid #9ec295;
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: block;
+}
+
+.site-main [class*="navigation"] a:hover,
+.more-link:hover {
+  color: #9ec295;
+  background: #9ec295;
+  text-decoration: none;
+}
+
+.navbar.navbar-default {
+  background-color: #fff;
+  font-weight: bold;
+  margin-bottom: 0;
+  margin-top: -2px;
+  border-bottom: 1px solid #eee;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #9ec295;
+  line-height: 30px;
+}
+
+
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus,
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+  color: #d6c0c6;
+  background-color: transparent;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .open > a{
+	color: #ebcdce;
+	background-color: transparent;
+	text-decoration: underline;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+  color: #E38F9C;
+}
+
+.dropdown-menu > li > a {
+  padding: 14px 20px;
+  color: #E38F9C;
+}
+
+.dropdown-menu > .active > a,
+.navbar-default .navbar-nav .open .dropdown-menu > .active > a {
+  background-color: #ffedf2;
+  color: #fff;
+}
+
 .navbar > .container .navbar-brand {
-  color: #a85b4a;
-  font-size: 30px;
+  color: #a36179 ;
+  font-size: 35px;
+  font-weight: bold;
   margin: 8px 0;
   font-family: 'Clicker Script', cursive;
 }
 
 #menu-menu{
 	font-family: 'Raleway', sans-serif;
-	color: #8da37c;
-}
-
-.navbar-default .navbar-nav > li > a, 
-.navbar-default .navbar-nav > li > a:focus,
-.navbar-default .navbar-nav > li > a:hover{
-	color: #8da37c;
-	background-color: transparent;
-}
-
-.dropdown-menu > li > a,
-.dropdown-menu > li > a:hover,
-.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover{
-	color: #8da37c;
-	background-color: transparent;
+	color: #9ec295; 
+	font-weight: bold;
 }
 
 /*Front Page Enter*/
@@ -55,14 +115,83 @@ Dazzling is based on Underscores http://underscores.me/, (C) 2012-2015 Automatti
 	float: right;
 	font-family: 'Raleway', sans-serif;
 	font-size: 18px;
-	color: #8da37c;
+	color: #9ec295;
 }
 
 /*Front Page Footer - or Page Footer*/
 #colophon{
-	background-color: #d5d9a5;
-	border-top: 1px solid #d5d9a5;
+	background-color: #f4f9eb ;
+	border-top: 1px solid #f4f9eb;
 }
+
 #footer-area a{
-	color: #8da37c;
+	color: #bf91a2;
+	font-weight: bold;
+}
+
+.copyright{
+	font-family: 'Raleway', sans-serif;
+}
+
+.site-info{
+	font-size: 14px;
+}
+
+/*Home Page*/
+.entry-title a{
+	font-family: 'Clicker Script', cursive;
+	font-weight: bold;
+	color: #b68194;
+}
+
+.entry-meta{
+	font-family: 'Raleway', sans-serif;
+	color: #d6c0c6;
+}
+
+.entry-meta .fa{
+	color: #d6c0c6;
+}
+
+.page-header{
+	border-bottom-color: #d6c0c6; 
+}
+
+.entry-content p{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+.btn.btn-default.read-more {
+  color: #565e5a;
+ }
+
+.btn.btn-default.read-more:hover {
+  color: #FFF;
+  background-color: #404040;
+}
+
+hr.section-divider {
+  border-color: #D6C0C6;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+/*Sidebar Widget Area*/
+.widget-title{
+	font-family: 'Clicker Script', cursive;
+	margin-top: 20px;
+	color: #b68194;
+}
+
+#categories-2{
+	margin-top: 40px;
+}
+
+#search-2{
+	margin-top: 40px;
+}
+
+ul{
+	font-family: 'Raleway', sans-serif;
 }

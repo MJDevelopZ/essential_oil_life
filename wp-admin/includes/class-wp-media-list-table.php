@@ -37,10 +37,21 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		return current_user_can('upload_files');
 	}
 
+	/**
+	 *
+	 * @global WP_Query $wp_query
+	 * @global array    $post_mime_types
+	 * @global array    $avail_post_mime_types
+	 * @global string   $mode
+	 */
 	public function prepare_items() {
 		global $wp_query, $post_mime_types, $avail_post_mime_types, $mode;
 
@@ -57,6 +68,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		) );
 	}
 
+	/**
+	 *
+	 * @global wpdb  $wpdb
+	 * @global array $post_mime_types
+	 * @global array $avail_post_mime_types
+	 * @return array
+	 */
 	protected function get_views() {
 		global $wpdb, $post_mime_types, $avail_post_mime_types;
 
@@ -65,10 +83,12 @@ class WP_Media_List_Table extends WP_List_Table {
 		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
 		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
 		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-		foreach ( $matches as $type => $reals )
-			foreach ( $reals as $real )
+		$num_posts = array();
+		foreach ( $matches as $type => $reals ) {
+			foreach ( $reals as $real ) {
 				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
-
+			}
+		}
 		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
 		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
 		foreach ( $post_mime_types as $mime_type => $label ) {
@@ -89,6 +109,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		return $type_links;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		$actions = array();
 		if ( MEDIA_TRASH ) {
@@ -135,6 +159,10 @@ class WP_Media_List_Table extends WP_List_Table {
 <?php
 	}
 
+	/**
+	 *
+	 * @return string
+	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['found_post_id'] ) && isset( $_REQUEST['media'] ) )
 			return 'attach';
@@ -148,16 +176,25 @@ class WP_Media_List_Table extends WP_List_Table {
 		return parent::current_action();
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function has_items() {
 		return have_posts();
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		_e( 'No media attachments found.' );
 	}
 
 	/**
 	 * Override parent views so we can use the filter bar display.
+	 *
+	 * @global string $mode
 	 */
 	public function views() {
 		global $mode;
@@ -203,10 +240,13 @@ class WP_Media_List_Table extends WP_List_Table {
 	<?php
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
 		$posts_columns = array();
 		$posts_columns['cb'] = '<input type="checkbox" />';
-		$posts_columns['icon'] = '';
 		/* translators: column name */
 		$posts_columns['title'] = _x( 'File', 'column name' );
 		$posts_columns['author'] = __( 'Author' );
@@ -253,11 +293,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		 * @param bool  $detached      Whether the list table contains media not attached
 		 *                             to any posts. Default true.
 		 */
-		$posts_columns = apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
-
-		return $posts_columns;
+		return apply_filters( 'manage_media_columns', $posts_columns, $this->detached );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'title'    => 'title',
@@ -268,6 +310,10 @@ class WP_Media_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @global WP_Post $post
+	 */
 	public function display_rows() {
 		global $post;
 
@@ -286,19 +332,22 @@ class WP_Media_List_Table extends WP_List_Table {
 	<tr id="post-<?php echo $post->ID; ?>" class="<?php echo trim( ' author-' . $post_owner . ' status-' . $post->post_status ); ?>">
 <?php
 
-list( $columns, $hidden ) = $this->get_column_info();
+list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
+
 foreach ( $columns as $column_name => $column_display_name ) {
-	$class = "class='$column_name column-$column_name'";
+	$classes = "$column_name column-$column_name";
+	if ( $primary === $column_name ) {
+		$classes .= ' has-row-actions column-primary';
+	}
 
 	$style = '';
-	if ( in_array( $column_name, $hidden ) )
+	if ( in_array( $column_name, $hidden ) ) {
 		$style = ' style="display:none;"';
+	}
 
-	$attributes = $class . $style;
+	$attributes = "class='$classes'$style";
 
-	switch ( $column_name ) {
-
-	case 'cb':
+	if ( 'cb' === $column_name ) {
 ?>
 		<th scope="row" class="check-column">
 			<?php if ( $user_can_edit ) { ?>
@@ -307,190 +356,172 @@ foreach ( $columns as $column_name => $column_display_name ) {
 			<?php } ?>
 		</th>
 <?php
-		break;
+	} else {
+		echo "<td $attributes>";
 
-	case 'icon':
-		list( $mime ) = explode( '/', $post->post_mime_type );
-		$attributes = 'class="column-icon media-icon ' . $mime . '-icon"' . $style;
-?>
-		<td <?php echo $attributes ?>><?php
-			if ( $thumb = wp_get_attachment_image( $post->ID, array( 80, 60 ), true ) ) {
-				if ( $this->is_trash || ! $user_can_edit ) {
-					echo $thumb;
-				} else {
-?>
-				<a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
-					<?php echo $thumb; ?>
-				</a>
+		switch ( $column_name ) {
+			case 'title':
+				list( $mime ) = explode( '/', $post->post_mime_type );
 
-<?php			}
-			}
-?>
-		</td>
-<?php
-		break;
+				echo "<div class='media-icon {$mime}-icon'>";
 
-	case 'title':
-?>
-		<td <?php echo $attributes ?>><strong>
-			<?php if ( $this->is_trash || ! $user_can_edit ) {
-				echo $att_title;
-			} else { ?>
-			<a href="<?php echo get_edit_post_link( $post->ID ); ?>"
-				title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
-				<?php echo $att_title; ?></a>
-			<?php };
-			_media_states( $post ); ?></strong>
-			<p class="filename"><?php echo wp_basename( $post->guid ); ?></p>
-<?php
-		echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
-?>
-		</td>
-<?php
-		break;
-
-	case 'author':
-?>
-		<td <?php echo $attributes ?>><?php
-			printf( '<a href="%s">%s</a>',
-				esc_url( add_query_arg( array( 'author' => get_the_author_meta('ID') ), 'upload.php' ) ),
-				get_the_author()
-			);
-		?></td>
-<?php
-		break;
-
-	case 'desc':
-?>
-		<td <?php echo $attributes ?>><?php echo has_excerpt() ? $post->post_excerpt : ''; ?></td>
-<?php
-		break;
-
-	case 'date':
-		if ( '0000-00-00 00:00:00' == $post->post_date ) {
-			$h_time = __( 'Unpublished' );
-		} else {
-			$m_time = $post->post_date;
-			$time = get_post_time( 'G', true, $post, false );
-			if ( ( abs( $t_diff = time() - $time ) ) < DAY_IN_SECONDS ) {
-				if ( $t_diff < 0 )
-					$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
-				else
-					$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
-			} else {
-				$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
-			}
-		}
-?>
-		<td <?php echo $attributes ?>><?php echo $h_time ?></td>
-<?php
-		break;
-
-	case 'parent':
-		if ( $post->post_parent > 0 )
-			$parent = get_post( $post->post_parent );
-		else
-			$parent = false;
-
-		if ( $parent ) {
-			$title = _draft_or_post_title( $post->post_parent );
-			$parent_type = get_post_type_object( $parent->post_type );
-?>
-			<td <?php echo $attributes ?>><strong>
-				<?php if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $post->post_parent ) ) { ?>
-					<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
-						<?php echo $title ?></a><?php
-				} else {
-					echo $title;
-				} ?></strong>,
-				<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
-				<?php
-				if ( $user_can_edit ):
-					$detach_url = add_query_arg( array(
-						'parent_post_id' => $post->post_parent,
-						'media[]' => $post->ID,
-						'_wpnonce' => wp_create_nonce( 'bulk-' . $this->_args['plural'] )
-					), 'upload.php' ); ?>
-				<a class="hide-if-no-js detach-from-parent" href="<?php echo $detach_url ?>"><?php _e( 'Detach' ); ?></a>
-				<?php endif; ?>
-			</td>
-<?php
-		} else {
-?>
-			<td <?php echo $attributes ?>><?php _e( '(Unattached)' ); ?><br />
-			<?php if ( $user_can_edit ) { ?>
-				<a class="hide-if-no-js"
-					onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
-					href="#the-list">
-					<?php _e( 'Attach' ); ?></a>
-			<?php } ?></td>
-<?php
-		}
-		break;
-
-	case 'comments':
-		$attributes = 'class="comments column-comments num"' . $style;
-?>
-		<td <?php echo $attributes ?>>
-			<div class="post-com-count-wrapper">
-<?php
-		$pending_comments = get_pending_comments_num( $post->ID );
-
-		$this->comments_bubble( $post->ID, $pending_comments );
-?>
-			</div>
-		</td>
-<?php
-		break;
-
-	default:
-		if ( 'categories' == $column_name )
-			$taxonomy = 'category';
-		elseif ( 'tags' == $column_name )
-			$taxonomy = 'post_tag';
-		elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
-			$taxonomy = substr( $column_name, 9 );
-		else
-			$taxonomy = false;
-
-		if ( $taxonomy ) {
-			echo '<td ' . $attributes . '>';
-			if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
-				$out = array();
-				foreach ( $terms as $t ) {
-					$posts_in_term_qv = array();
-					$posts_in_term_qv['taxonomy'] = $taxonomy;
-					$posts_in_term_qv['term'] = $t->slug;
-
-					$out[] = sprintf( '<a href="%s">%s</a>',
-						esc_url( add_query_arg( $posts_in_term_qv, 'upload.php' ) ),
-						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
-					);
+				if ( $thumb = wp_get_attachment_image( $post->ID, array( 60, 60 ), true ) ) {
+					if ( $this->is_trash || ! $user_can_edit ) {
+						echo $thumb;
+					} else { ?>
+					<a href="<?php echo get_edit_post_link( $post->ID ); ?>" title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
+						<?php echo $thumb; ?>
+					</a><?php
+					}
 				}
-				/* translators: used between list items, there is a space after the comma */
-				echo join( __( ', ' ), $out );
-			} else {
-				echo '&#8212;';
-			}
-			echo '</td>';
-			break;
-		}
+
+				echo '</div><div class="media-info">';
 ?>
-		<td <?php echo $attributes ?>><?php
-			/**
-			 * Fires for each custom column in the Media list table.
-			 *
-			 * Custom columns are registered using the 'manage_media_columns' filter.
-			 *
-			 * @since 2.5.0
-			 *
-			 * @param string $column_name Name of the custom column.
-			 * @param int    $post_id     Attachment ID.
-			 */
-			do_action( 'manage_media_custom_column', $column_name, $post->ID );
-		?></td>
+					<strong>
+					<?php if ( $this->is_trash || ! $user_can_edit ) {
+						echo $att_title;
+					} else { ?>
+					<a href="<?php echo get_edit_post_link( $post->ID ); ?>"
+						title="<?php echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $att_title ) ); ?>">
+						<?php echo $att_title; ?></a>
+					<?php }
+					_media_states( $post ); ?></strong>
+					<p class="filename"><?php echo wp_basename( $post->guid ); ?></p>
+				</div>
 <?php
-		break;
+				break;
+
+			case 'author':
+				printf( '<a href="%s">%s</a>',
+					esc_url( add_query_arg( array( 'author' => get_the_author_meta('ID') ), 'upload.php' ) ),
+					get_the_author()
+				);
+
+				break;
+
+			case 'desc':
+				echo has_excerpt() ? $post->post_excerpt : '';
+				break;
+
+			case 'date':
+				if ( '0000-00-00 00:00:00' == $post->post_date ) {
+					$h_time = __( 'Unpublished' );
+				} else {
+					$m_time = $post->post_date;
+					$time = get_post_time( 'G', true, $post, false );
+					if ( ( abs( $t_diff = time() - $time ) ) < DAY_IN_SECONDS ) {
+						if ( $t_diff < 0 )
+							$h_time = sprintf( __( '%s from now' ), human_time_diff( $time ) );
+						else
+							$h_time = sprintf( __( '%s ago' ), human_time_diff( $time ) );
+					} else {
+						$h_time = mysql2date( __( 'Y/m/d' ), $m_time );
+					}
+				}
+
+				echo $h_time;
+				break;
+
+			case 'parent':
+				if ( $post->post_parent > 0 )
+					$parent = get_post( $post->post_parent );
+				else
+					$parent = false;
+
+				if ( $parent ) {
+					$title = _draft_or_post_title( $post->post_parent );
+					$parent_type = get_post_type_object( $parent->post_type );
+		?>
+					<strong>
+					<?php if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $post->post_parent ) ) { ?>
+						<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
+							<?php echo $title ?></a><?php
+					} else {
+						echo $title;
+					} ?></strong>,
+					<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
+					<?php
+					if ( $user_can_edit ):
+						$detach_url = add_query_arg( array(
+							'parent_post_id' => $post->post_parent,
+							'media[]' => $post->ID,
+							'_wpnonce' => wp_create_nonce( 'bulk-' . $this->_args['plural'] )
+						), 'upload.php' ); ?>
+					<a class="hide-if-no-js detach-from-parent" href="<?php echo $detach_url ?>"><?php _e( 'Detach' ); ?></a>
+					<?php endif;
+				} else {
+					_e( '(Unattached)' ); ?><br />
+					<?php if ( $user_can_edit ) { ?>
+						<a class="hide-if-no-js"
+							onclick="findPosts.open( 'media[]','<?php echo $post->ID ?>' ); return false;"
+							href="#the-list">
+							<?php _e( 'Attach' ); ?></a>
+					<?php }
+				}
+
+				break;
+
+			case 'comments':
+				echo '<div class="post-com-count-wrapper">';
+
+				$pending_comments = get_pending_comments_num( $post->ID );
+				$this->comments_bubble( $post->ID, $pending_comments );
+
+				echo '</div>';
+
+				break;
+
+			default:
+				if ( 'categories' == $column_name )
+					$taxonomy = 'category';
+				elseif ( 'tags' == $column_name )
+					$taxonomy = 'post_tag';
+				elseif ( 0 === strpos( $column_name, 'taxonomy-' ) )
+					$taxonomy = substr( $column_name, 9 );
+				else
+					$taxonomy = false;
+
+				if ( $taxonomy ) {
+					if ( $terms = get_the_terms( $post->ID, $taxonomy ) ) {
+						$out = array();
+						foreach ( $terms as $t ) {
+							$posts_in_term_qv = array();
+							$posts_in_term_qv['taxonomy'] = $taxonomy;
+							$posts_in_term_qv['term'] = $t->slug;
+
+							$out[] = sprintf( '<a href="%s">%s</a>',
+								esc_url( add_query_arg( $posts_in_term_qv, 'upload.php' ) ),
+								esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
+							);
+						}
+						/* translators: used between list items, there is a space after the comma */
+						echo join( __( ', ' ), $out );
+					} else {
+						echo '&#8212;';
+					}
+
+					break;
+				}
+
+				/**
+				 * Fires for each custom column in the Media list table.
+				 *
+				 * Custom columns are registered using the {@see 'manage_media_columns'} filter.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param string $column_name Name of the custom column.
+				 * @param int    $post_id     Attachment ID.
+				 */
+				do_action( 'manage_media_custom_column', $column_name, $post->ID );
+				break;
+		}
+
+		if( $primary === $column_name ) {
+			echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
+		}
+
+		echo '</td>';
 	}
 }
 ?>
@@ -499,8 +530,22 @@ foreach ( $columns as $column_name => $column_display_name ) {
 	}
 
 	/**
+	 * Get the name of the default primary column.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string Name of the default primary column, in this case, 'title'.
+	 */
+	protected function get_default_primary_column_name() {
+		return 'title';
+	}
+
+	/**
 	 * @param WP_Post $post
 	 * @param string  $att_title
+	 *
+	 * @return array
 	 */
 	private function _get_row_actions( $post, $att_title ) {
 		$actions = array();
@@ -549,8 +594,6 @@ foreach ( $columns as $column_name => $column_display_name ) {
 		 * @param bool    $detached Whether the list table contains media not attached
 		 *                          to any posts. Default true.
 		 */
-		$actions = apply_filters( 'media_row_actions', $actions, $post, $this->detached );
-
-		return $actions;
+		return apply_filters( 'media_row_actions', $actions, $post, $this->detached );
 	}
 }

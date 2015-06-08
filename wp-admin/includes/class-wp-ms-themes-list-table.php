@@ -22,6 +22,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
+	 * @global string $status
+	 * @global int    $page
+	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
@@ -44,11 +47,19 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_table_classes() {
 		// todo: remove and add CSS for .themes
 		return array( 'widefat', 'plugins' );
 	}
 
+	/**
+	 *
+	 * @return bool
+	 */
 	public function ajax_user_can() {
 		if ( $this->is_site_themes )
 			return current_user_can( 'manage_sites' );
@@ -56,6 +67,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return current_user_can( 'manage_network_themes' );
 	}
 
+	/**
+	 *
+	 * @global string $status
+	 * @global array $totals
+	 * @global int $page
+	 * @global string $orderby
+	 * @global string $order
+	 * @global string $s
+	 */
 	public function prepare_items() {
 		global $status, $totals, $page, $orderby, $order, $s;
 
@@ -150,7 +170,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function _search_callback( $theme ) {
-		static $term;
+		static $term = null;
 		if ( is_null( $term ) )
 			$term = wp_unslash( $_REQUEST['s'] );
 
@@ -192,6 +212,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			return ( $a < $b ) ? -1 : 1;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function no_items() {
 		if ( ! $this->has_items )
 			_e( 'No themes found.' );
@@ -199,9 +222,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			_e( 'You do not appear to have any themes available at this time.' );
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	public function get_columns() {
-		global $status;
-
 		return array(
 			'cb'          => '<input type="checkbox" />',
 			'name'        => __( 'Theme' ),
@@ -209,12 +234,34 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		);
 	}
 
+	/**
+	 *
+	 * @return array
+	 */
 	protected function get_sortable_columns() {
 		return array(
 			'name'         => 'name',
 		);
 	}
 
+	/**
+	 * Get the name of the primary column.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string Unalterable name of the primary column name, in this case, 'name'.
+	 */
+	protected function get_primary_column_name() {
+		return 'name';
+	}
+
+	/**
+	 *
+	 * @global array $totals
+	 * @global string $status
+	 * @return array
+	 */
 	protected function get_views() {
 		global $totals, $status;
 
@@ -258,6 +305,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $status_links;
 	}
 
+	/**
+	 * @global string $status
+	 *
+	 * @return array
+	 */
 	protected function get_bulk_actions() {
 		global $status;
 
@@ -275,6 +327,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		return $actions;
 	}
 
+	/**
+	 * @access public
+	 */
 	public function display_rows() {
 		foreach ( $this->items as $theme )
 			$this->single_row( $theme );
@@ -285,6 +340,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @global int $page
 	 * @global string $s
 	 * @global array $totals
+	 *
 	 * @param WP_Theme $theme
 	 */
 	public function single_row( $theme ) {
@@ -375,24 +431,31 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		echo "<tr id='$id' class='$class'>";
 
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
 			$style = '';
 			if ( in_array( $column_name, $hidden ) )
 				$style = ' style="display:none;"';
 
+			$extra_class = '';
+			if ( $primary === $column_name ) {
+				$extra_class = ' column-primary';
+			}
+
 			switch ( $column_name ) {
 				case 'cb':
 					echo "<th scope='row' class='check-column'>$checkbox</th>";
 					break;
 				case 'name':
-					echo "<td class='theme-title'$style><strong>" . $theme->display('Name') . "</strong>";
-					echo $this->row_actions( $actions, true );
+					echo "<td class='theme-title{$extra_class}'$style><strong>" . $theme->display('Name') . "</strong>";
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
 					echo "</td>";
 					break;
 				case 'description':
-					echo "<td class='column-description desc'$style>";
+					echo "<td class='column-description desc{$extra_class}'$style>";
 					if ( $theme->errors() ) {
 						$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 						echo '<p><strong class="attention">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
@@ -426,11 +489,15 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					$theme_meta = apply_filters( 'theme_row_meta', $theme_meta, $stylesheet, $theme, $status );
 					echo implode( ' | ', $theme_meta );
 
-					echo "</div></td>";
+					echo '</div>';
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
+					echo '</td>';
 					break;
 
 				default:
-					echo "<td class='$column_name column-$column_name'$style>";
+					echo "<td class='$column_name column-$column_name{$extra_class}'$style>";
 
 					/**
 					 * Fires inside each custom column of the Multisite themes list table.
@@ -442,6 +509,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					 * @param WP_Theme $theme       Current WP_Theme object.
 					 */
 					do_action( 'manage_themes_custom_column', $column_name, $stylesheet, $theme );
+
+					if ( $primary === $column_name ) {
+						echo $this->row_actions($actions, true);
+					}
 					echo "</td>";
 			}
 		}

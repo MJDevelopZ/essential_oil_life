@@ -250,6 +250,8 @@ class WP_List_Table {
 	 *
 	 * @param array $args An associative array with information about the pagination
 	 * @access protected
+	 *
+	 * @param array|string $args
 	 */
 	protected function set_pagination_args( $args ) {
 		$args = wp_parse_args( $args, array(
@@ -455,7 +457,7 @@ class WP_List_Table {
 	 * @since 3.1.0
 	 * @access public
 	 *
-	 * @return string|bool The action name or False if no action was selected
+	 * @return string|false The action name or False if no action was selected
 	 */
 	public function current_action() {
 		if ( isset( $_REQUEST['filter_action'] ) && ! empty( $_REQUEST['filter_action'] ) )
@@ -503,6 +505,9 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access protected
+	 *
+	 * @global wpdb      $wpdb
+	 * @global WP_Locale $wp_locale
 	 *
 	 * @param string $post_type
 	 */
@@ -686,7 +691,7 @@ class WP_List_Table {
 			$infinite_scroll = $this->_pagination_args['infinite_scroll'];
 		}
 
-		$output = '<span class="displaying-num">' . sprintf( _n( '1 item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
+		$output = '<span class="displaying-num">' . sprintf( _n( '%s item', '%s items', $total_items ), number_format_i18n( $total_items ) ) . '</span>';
 
 		$current = $this->get_pagenum();
 
@@ -792,6 +797,48 @@ class WP_List_Table {
 	}
 
 	/**
+	 * Get the name of the default primary column.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string Name of the default primary column, in this case, an empty string.
+	 */
+	protected function get_default_primary_column_name() {
+		return '';
+	}
+
+	/**
+	 * Get the name of the primary column.
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @return string The name of the primary column.
+	 */
+	protected function get_primary_column_name() {
+		$columns = $this->get_columns();
+		$default = $this->get_default_primary_column_name();
+
+		/**
+		 * Filter the name of the primary column for the current list table, with context
+		 * as argument (eg: 'plugins').
+		 *
+		 * @since 4.3.0
+		 *
+		 * @param string $default Column name default for the specific list table, e.g. 'name'.
+		 * @param string $context Screen ID for specific list table, e.g. 'plugins'.
+		 */
+		$column  = apply_filters( 'list_table_primary_column', $default, $this->screen->id );
+
+		if ( empty( $column ) || ! isset( $columns[ $column ] ) ) {
+			$column = $default;
+		}
+
+		return $column;
+	}
+
+	/**
 	 * Get a list of all, hidden and sortable columns, with filter applied
 	 *
 	 * @since 3.1.0
@@ -831,7 +878,8 @@ class WP_List_Table {
 			$sortable[$id] = $data;
 		}
 
-		$this->_column_headers = array( $columns, $hidden, $sortable );
+		$primary = $this->get_primary_column_name();
+		$this->_column_headers = array( $columns, $hidden, $sortable, $primary );
 
 		return $this->_column_headers;
 	}
@@ -855,6 +903,8 @@ class WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 * @access public
+	 *
+	 * @staticvar int $cb_counter
 	 *
 	 * @param bool $with_id Whether to set the id attribute or not
 	 */
@@ -930,7 +980,6 @@ class WP_List_Table {
 		$singular = $this->_args['singular'];
 
 		$this->display_tablenav( 'top' );
-
 ?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
 	<thead>
@@ -1046,8 +1095,17 @@ class WP_List_Table {
 		echo '</tr>';
 	}
 
+	/**
+	 *
+	 * @param object $item
+	 * @param string $column_name
+	 */
 	protected function column_default( $item, $column_name ) {}
 
+	/**
+	 *
+	 * @param object $item
+	 */
 	protected function column_cb( $item ) {}
 
 	/**
@@ -1059,16 +1117,20 @@ class WP_List_Table {
 	 * @param object $item The current item
 	 */
 	protected function single_row_columns( $item ) {
-		list( $columns, $hidden ) = $this->get_column_info();
+		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 
 		foreach ( $columns as $column_name => $column_display_name ) {
-			$class = "class='$column_name column-$column_name'";
+			$classes = "$column_name column-$column_name";
+			if ( $primary === $column_name ) {
+				$classes .= ' has-row-actions column-primary';
+			}
 
 			$style = '';
-			if ( in_array( $column_name, $hidden ) )
+			if ( in_array( $column_name, $hidden ) ) {
 				$style = ' style="display:none;"';
+			}
 
-			$attributes = "$class$style";
+			$attributes = "class='$classes'$style";
 
 			if ( 'cb' == $column_name ) {
 				echo '<th scope="row" class="check-column">';
@@ -1078,15 +1140,32 @@ class WP_List_Table {
 			elseif ( method_exists( $this, 'column_' . $column_name ) ) {
 				echo "<td $attributes>";
 				echo call_user_func( array( $this, 'column_' . $column_name ), $item );
+				echo $this->handle_row_actions( $item, $column_name, $primary );
 				echo "</td>";
 			}
 			else {
 				echo "<td $attributes>";
 				echo $this->column_default( $item, $column_name );
+				echo $this->handle_row_actions( $item, $column_name, $primary );
 				echo "</td>";
 			}
 		}
 	}
+
+	/**
+	 * Generate and display row actions links
+	 *
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param object $item        The item being acted upon.
+	 * @param string $column_name Current column name.
+	 * @param string $primary     Primary column name.
+	 * @return string The row actions output. In this case, an empty string.
+	 */
+	protected function handle_row_actions( $item, $column_name, $primary ) {
+		return '';
+ 	}
 
 	/**
 	 * Handle an incoming ajax request (called from admin-ajax.php)
@@ -1110,7 +1189,7 @@ class WP_List_Table {
 
 		if ( isset( $this->_pagination_args['total_items'] ) ) {
 			$response['total_items_i18n'] = sprintf(
-				_n( '1 item', '%s items', $this->_pagination_args['total_items'] ),
+				_n( '%s item', '%s items', $this->_pagination_args['total_items'] ),
 				number_format_i18n( $this->_pagination_args['total_items'] )
 			);
 		}

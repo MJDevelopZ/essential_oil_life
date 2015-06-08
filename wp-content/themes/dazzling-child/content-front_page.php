@@ -12,7 +12,7 @@
 	<div class="entry-content">
 		<?php the_content(); ?>
 			<div class="frontPageEnter">
-				<a href="http://localhost:35555/home">Enter</a>
+				<a href="http://localhost/essential_oil_life/home">Enter</a>
 			</div><!--.frontPageEnter -->
 	</div><!-- .entry-content -->
 	
