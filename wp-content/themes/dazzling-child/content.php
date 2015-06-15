@@ -66,10 +66,6 @@
 				'echo'              => 1
        		) );
     	?>
-
-    	<footer class="entry-footer">
-			<p>For more information on how to become a Wellness Advocate or to purchase the oils from this post please visit: <span id="web_link"><?php the_field('doterra_store_link') ?></span></p>
-		</footer><!-- .entry-footer -->
 	</div><!-- .entry-content -->
 	<?php endif; ?>
 

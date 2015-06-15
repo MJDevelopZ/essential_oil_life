@@ -14,23 +14,23 @@ function create_custom_post_types(){
 			'labels' => array(
 			'name' => __( 'About' ),
 			'singular_name' => __('About')
-				),//closes array from line 46
+				),//closes array from line 14
 			'public' => true,
 			'has_archive' => true,
 			'rewrite' => array( 'slug' => 'about' ),
-		)//closes array from line 14
+		)//closes array from line 13
 	);//closes register_post_type
 
-//Contact Us
-	register_post_type( 'Contact Us',
+//Create a custom post type for Contact Form
+	register_post_type( 'contact',
 		array(
 			'labels' => array(
-			'name' => __( 'Contact Us' ),
+			'name' => __('Contact Us'),
 			'singular_name' => __('Contact Us')
-				),//closes array from line 27
+			), //closes array from line 27
 			'public' => true,
 			'has_archive' => true,
-			'rewrite' => array( 'slug' => 'Contact Us' ),
+			'rewrite' => array( 'slug' => 'contact-us' ),
 		)//closes array from line 26
 	);//closes register_post_type
 

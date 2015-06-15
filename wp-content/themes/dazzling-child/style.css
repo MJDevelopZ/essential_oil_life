@@ -33,7 +33,7 @@ body{
 
 .site-main [class*="navigation"] a,
 .more-link {
-  border: 1px solid #9ec295;
+  border: 1px solid #d6c0c6;
   padding: 6px 12px;
   border-radius: 4px;
   display: block;
@@ -41,8 +41,8 @@ body{
 
 .site-main [class*="navigation"] a:hover,
 .more-link:hover {
-  color: #9ec295;
-  background: #9ec295;
+  color: #fff;
+  background: #404040;
   text-decoration: none;
 }
 
@@ -58,7 +58,6 @@ body{
   color: #9ec295;
   line-height: 30px;
 }
-
 
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus,
@@ -110,6 +109,21 @@ body{
 	font-weight: bold;
 }
 
+.nav-links,
+.nav-previous,
+.nav-older{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+.site-main [class*=*"navigation"] a, .more-link{
+	border: 1px solid #d6c0c6;
+}
+
+a{
+	color: #565e5a;
+}
+
 /*Front Page Enter*/
 .frontPageEnter{
 	float: right;
@@ -118,7 +132,7 @@ body{
 	color: #9ec295;
 }
 
-/*Front Page Footer - or Page Footer*/
+/*Footer*/
 #colophon{
 	background-color: #f4f9eb ;
 	border-top: 1px solid #f4f9eb;
@@ -135,6 +149,23 @@ body{
 
 .site-info{
 	font-size: 14px;
+}
+
+footer.entry-meta{
+	margin-top: 45px;
+}
+
+.fa .fa-desktop{
+	margin-right: 6px;
+}
+
+p.entry-meta{
+	color: #565e5a;
+}
+
+.disclaimer{
+	font-size: 10px;
+	font-style: italic;
 }
 
 /*Home Page*/
@@ -163,8 +194,12 @@ body{
 }
 
 .btn.btn-default.read-more {
+  float: right;
+  border: 1px solid #D6C0C6;
   color: #565e5a;
- }
+  background-color: transparent;
+  margin-top: 10px;
+}
 
 .btn.btn-default.read-more:hover {
   color: #FFF;
@@ -192,6 +227,136 @@ hr.section-divider {
 	margin-top: 40px;
 }
 
+#recent-posts-2{
+	margin-top: 40px;
+}
+
+#tribe-events-list-widget-2{
+	margin-top: 40px;
+}
+
+.duration /*event widget*/,
+.tribe-events-widget-link{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
 ul{
 	font-family: 'Raleway', sans-serif;
+}
+
+#secondary .widget_categories ul li::before{
+	color: #b68194;
+}
+
+/*Individual Entries*/
+h1.entry-title{
+	font-family: 'Clicker Script', cursive;
+	color: #b68194;
+}
+
+/*Comments*/
+.comment-reply-title{
+	font-family: 'Clicker Script', cursive;
+	color: #bf91a2;
+	font-weight: bold;
+	font-size: 28px;
+}
+
+#commentform{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+#submit{
+	color: #565e5a;
+	background-color: #f4f9eb;
+	border-color: #d6c0c6;
+}
+
+.comments-title{
+	font-family: 'Clicker Script', cursive;
+	color: #bf91a2;
+	font-weight: bold;
+	font-size: 28px;
+}
+
+.btn.btn-default,
+.comment-reply-link{
+	color: #565e5a;
+	background-color: transparent;
+	border-color: #d6c0c6;
+}
+
+/*Search*/
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+textarea {
+  color: #565e5a;
+  border: 1px solid #d6c0c6;
+  border-radius: 3px;
+}
+
+#searchsubmit,
+.btn-default.active,
+.btn-default.focus,
+.btn-default:active, .btn-default:focus,
+.btn-default:hover, .opn > .dropdown-toggle.btn-default{
+	color: #565e5a;
+	background-color: transparent;
+	border-color: #d6c0c6;
+}
+
+h1.page-title{
+	font-family: 'Clicker Script', cursive;
+	color: #b68194;
+}
+
+.page-title span{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+/*Contact Form*/
+.ninja-forms-all-fields-wrap{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+/*404 Page*/
+#doTerra-image{
+	display:inline-block;
+	z-index: 1;
+}
+
+.404-page-title{
+	clear: both;
+	float: right;
+	z-index: 2;
+	margin-right: 150px;
+	font-weight: bold;
+	font-size: 48px;
+}
+
+.404-page-sub-title{
+	z-index: 2;
+	font-family: 'Clicker Script', cursive;
+	font-size: 36px;
+	float: right;
+	margin-right: 100px;
+	margin-top: -125px;
+	color: #b68194;
+}
+
+.404-page-content{
+	font-family: 'Raleway', sans-serif;
+	color: #565e5a;
+}
+
+.widgettitle{
+	font-family: 'Clicker Script', cursive;
+	color: #b68194;
 }
