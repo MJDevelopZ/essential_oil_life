@@ -12,7 +12,7 @@
 	<div class="entry-content">
 		<?php the_content(); ?>
 			<div class="frontPageEnter">
-				<a href="http://localhost/essential_oil_life/home">Enter</a>
+				<a href="http://08c.acd.myftpupload.com/home/">Enter</a>
 			</div><!--.frontPageEnter -->
 	</div><!-- .entry-content -->
 	
