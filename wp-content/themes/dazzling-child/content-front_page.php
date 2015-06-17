@@ -11,9 +11,7 @@
 
 	<div class="entry-content">
 		<?php the_content(); ?>
-			<div class="frontPageEnter">
-				<a href="http://08c.acd.myftpupload.com/home/">Enter</a>
-			</div><!--.frontPageEnter -->
+			
 	</div><!-- .entry-content -->
 	
 </article><!-- #post-## -->
