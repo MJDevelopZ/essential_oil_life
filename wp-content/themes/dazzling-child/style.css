@@ -125,11 +125,39 @@ a{
 }
 
 /*Front Page Enter*/
-.frontPageEnter{
-	float: right;
-	font-family: 'Raleway', sans-serif;
-	font-size: 18px;
-	color: #9ec295;
+.front-title{
+	font-family: 'Clicker Script', cursive;
+	text-align: center;
+	font-size: 36pt;
+	font-weight: bold;
+	color: #a36179;
+	margin-top: -2.25%;
+}
+
+ul.monthly-specials{
+	width: 100%;
+	list-style-type: none;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 0px;
+}
+
+.individual-monthly-specials{
+	list-style-type: none;
+	display: inline-block;
+	padding: 2.5%;
+}
+
+#image-1,
+#image-3{
+	padding-left: -55px;
+	padding-right: 15px;
+	margin-left: .5%;
+}
+
+#image-2,
+#image-4{
+	padding-right: -65px;
 }
 
 /*Footer*/
@@ -360,3 +388,4 @@ h1.page-title{
 	font-family: 'Clicker Script', cursive;
 	color: #b68194;
 }
+
