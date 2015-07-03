@@ -135,7 +135,7 @@ a{
 }
 
 ul.monthly-specials{
-	width: 100%;
+	/*width: 100%;*/
 	list-style-type: none;
 	margin-left: auto;
 	margin-right: auto;
@@ -145,19 +145,17 @@ ul.monthly-specials{
 .individual-monthly-specials{
 	list-style-type: none;
 	display: inline-block;
-	padding: 2.5%;
+	margin-bottom: 2.5%;
 }
 
 #image-1,
 #image-3{
-	padding-left: -55px;
-	padding-right: 15px;
-	margin-left: .5%;
+	float: left;
 }
 
 #image-2,
 #image-4{
-	padding-right: -65px;
+	float: right;
 }
 
 /*Footer*/
