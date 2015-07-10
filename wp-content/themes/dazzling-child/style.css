@@ -153,10 +153,14 @@ ul.monthly-specials{
 	float: left;
 }
 
-#image-2,
-#image-4{
+#image-2,{
 	float: right;
+}#image-4{
+	float: right;
+	margin-right: 150px;
 }
+
+
 
 /*Footer*/
 #colophon{
