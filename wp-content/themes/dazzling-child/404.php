@@ -16,11 +16,11 @@ get_header(); ?>
 						<div class="page-image">
 							<image id="doTerra-image" src="http://localhost/essential_oil_life/wp-content/uploads/2015/06/doTerra1.jpg" />
 						</image>
-						<h1 class="404-page-title"><?php _e( 'Something is wrong!', 'dazzling' ); ?></h1>
-						<h2 class="404-page-sub-title"><?php _e( 'I bet we can find an oil for that!', 'dazzling' ); ?></h2>
+						<h1 class="page-title"><?php _e( 'Something is wrong!', 'dazzling' ); ?></h1>
+						<h2 class="page-sub-title"><?php _e( 'I bet we can find an oil for that!', 'dazzling' ); ?></h2>
 					</header><!-- .page-header -->
 
-					<div class="404-page-content">
+					<div class="page-content">
 						<p><?php _e( 'To help us find an oil, try using the search bar, a recent post, or return to the home screen.', 'dazzling' ); ?></p>
 
 						<?php get_search_form(); ?>

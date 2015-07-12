@@ -12,8 +12,8 @@
 
 	<div class="entry-content">
 		<ul class="monthly-specials">
-				
-				<?php 
+
+				<?php
 					$image_1 = get_field('image_1');
 					$image_1_link = get_field('image_1_link');
 					$image_2 = get_field('image_2');
@@ -57,7 +57,7 @@
 						<?php } ?>
 					</figure>
 				</li>
-		
+
 		</ul><!--.monthly-specials-->
 	</div><!-- .entry-content -->
 </article><!-- #post-## -->

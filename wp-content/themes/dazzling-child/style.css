@@ -105,7 +105,7 @@ body{
 
 #menu-menu{
 	font-family: 'Raleway', sans-serif;
-	color: #9ec295; 
+	color: #9ec295;
 	font-weight: bold;
 }
 
@@ -146,6 +146,7 @@ ul.monthly-specials{
 	list-style-type: none;
 	display: inline-block;
 	margin-bottom: 2.5%;
+
 }
 
 #image-1,
@@ -153,14 +154,14 @@ ul.monthly-specials{
 	float: left;
 }
 
-#image-2,{
+#image-2{
 	float: right;
-}#image-4{
-	float: right;
-	margin-right: 150px;
 }
 
-
+#image-4{
+        float: right;
+		margin-right: 150px;
+}
 
 /*Footer*/
 #colophon{
@@ -215,7 +216,7 @@ p.entry-meta{
 }
 
 .page-header{
-	border-bottom-color: #d6c0c6; 
+	border-bottom-color: #d6c0c6;
 }
 
 .entry-content p{
@@ -390,4 +391,3 @@ h1.page-title{
 	font-family: 'Clicker Script', cursive;
 	color: #b68194;
 }
-
